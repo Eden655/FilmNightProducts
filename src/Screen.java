@@ -1,10 +1,15 @@
-import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import javax.swing.*;
+import java.io.*;
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
+
 
 public class Screen extends JFrame {
     private JPanel panelMain;
@@ -21,6 +26,7 @@ public class Screen extends JFrame {
     private JButton buttonSave;
     private JLabel labelAge;
     private JButton buttonClear;
+    private JPanel Picture;
 
     private ArrayList<Person> people;
     private DefaultListModel listPeopleModel;
@@ -141,13 +147,23 @@ public class Screen extends JFrame {
 
 
 
-
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException{
         Screen screen = new Screen();
+        screen.setSize(750,500);
         screen.setVisible(true);
 
-        Person infantozzi = new Person("Mr Infantozzi", "r.infantozzi@isturin.it", "391 999 9999", "Via Roma 999", "22/09/1979" );
+        screen.Picture.setLayout(new FlowLayout());
+        BufferedImage myPicture = ImageIO.read(new File("Addressbook.png"));
+        Image dmyPicture = myPicture.getScaledInstance(212, 124, Image.SCALE_SMOOTH);
+        JLabel picLabel = new JLabel(new ImageIcon(dmyPicture));
+        screen.Picture.add(picLabel);
 
+
+        FileWriter fw = new FileWriter("Contacts.txt",true);
+        fw.write("Mr Infantozzi, r.infantozzi@isturin.it, 3919999999, Via Roma 999, 22/09/1979\n");
+        fw.close();
+
+        Person infantozzi = new Person("Mr Infantozzi", "r.infantozzi@isturin.it", "391 999 9999", "Via Roma 999", "22/09/1979" );
         screen.addPerson(infantozzi);
 
     }
